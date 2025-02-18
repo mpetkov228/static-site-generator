@@ -21,3 +21,11 @@ class TestHTMLNode(unittest.TestCase):
         string = ' class="main-heading"'
         self.assertEqual(node.props_to_html(), string)
 
+    
+    def test_props_to_html_no_props(self):
+        node = HTMLNode("div")
+        self.assertEqual(node.props_to_html(), "")
+
+
+if __name__ == "__main__":
+    unittest.main()
