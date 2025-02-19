@@ -12,7 +12,7 @@ class TestLeafNode(unittest.TestCase):
 
     def test_to_html_error(self):
         node = LeafNode("p")
-        self.assertRaises(ValueError)
+        self.assertRaises(ValueError, node.to_html)
 
 
 
