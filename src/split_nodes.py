@@ -21,11 +21,3 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 new_nodes.append(TextNode(parts[i], TextType.TEXT))
 
     return new_nodes
-
-
-# node2 = TextNode("This is text with a **bold word**", TextType.TEXT)
-# node3 = TextNode("*Italic* text", TextType.TEXT)
-# node4 = TextNode("Italic text 2", TextType.ITALIC)
-# print(split_nodes_delimiter([node], "`", TextType.CODE))
-# print(split_nodes_delimiter([node2], "**", TextType.BOLD))
-# print(split_nodes_delimiter([node3, node4], "*", TextType.ITALIC))
