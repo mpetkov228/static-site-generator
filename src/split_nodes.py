@@ -80,7 +80,3 @@ def split_nodes_link(old_nodes):
         new_nodes.extend(nodes)
     
     return new_nodes
-
-
-print(split_nodes_link([node]))
-print(split_nodes_link([node2]))
