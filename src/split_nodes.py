@@ -8,7 +8,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     
     new_nodes = []
     for node in old_nodes:
-        if node.text_type != TextType.TEXT:
+        if delimiter not in node.text:
             new_nodes.append(node)
             continue
 
@@ -50,13 +50,6 @@ def split_nodes_image(old_nodes):
     return new_nodes
 
 
-node = TextNode(
-    "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
-    TextType.TEXT,
-)
-node2 = TextNode("Hello [alt](url) end", TextType.TEXT)
-
-
 def split_nodes_link(old_nodes):
     new_nodes = []
     for node in old_nodes:
@@ -80,3 +73,18 @@ def split_nodes_link(old_nodes):
         new_nodes.extend(nodes)
     
     return new_nodes
+
+
+def text_to_textnodes(text):
+    node = [TextNode(text, TextType.TEXT)]
+    nodes_bold = split_nodes_delimiter(node, "**", TextType.BOLD)
+    nodes_italic = split_nodes_delimiter(nodes_bold, "*", TextType.ITALIC)
+    nodes_code = split_nodes_delimiter(nodes_italic, "`", TextType.CODE)
+    nodes_image = split_nodes_image(nodes_code)
+    nodes_link = split_nodes_link(nodes_image)
+    return nodes_link
+
+
+# text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+# print(len(text_to_textnodes(text)))
+# print(text_to_textnodes(text))
