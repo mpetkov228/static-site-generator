@@ -1,5 +1,5 @@
 from textnode import TextNode, TextType
-from functions import extract_markdown_images
+from functions import extract_markdown_images, extract_markdown_links
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -51,12 +51,36 @@ def split_nodes_image(old_nodes):
 
 
 node = TextNode(
-    "This is text with a link ![to boot dev](https://www.boot.dev) and ![to youtube](https://www.youtube.com/@bootdotdev)",
+    "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
     TextType.TEXT,
 )
-node2 = TextNode("Hello ![alt](url) end", TextType.TEXT)
-print(split_nodes_image([node]))
-print(split_nodes_image([node2]))
+node2 = TextNode("Hello [alt](url) end", TextType.TEXT)
+
 
 def split_nodes_link(old_nodes):
-    pass
+    new_nodes = []
+    for node in old_nodes:
+        matches = extract_markdown_links(node.text)
+        if len(matches) == 0:
+            new_nodes.append(node)
+            continue
+
+        text = node.text
+        nodes = []
+        for tup in matches:
+            parts = text.split(f"[{tup[0]}]({tup[1]})")
+            if parts[0] != "":
+                nodes.append(TextNode(parts[0], TextType.TEXT))
+            nodes.append(TextNode(tup[0], TextType.LINK, tup[1]))
+            text = "".join(parts[1:])
+        
+        if text != "":
+            nodes.append(TextNode(text, TextType.TEXT))
+
+        new_nodes.extend(nodes)
+    
+    return new_nodes
+
+
+print(split_nodes_link([node]))
+print(split_nodes_link([node2]))
