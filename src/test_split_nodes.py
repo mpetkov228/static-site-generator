@@ -1,6 +1,6 @@
 import unittest
 
-from split_nodes import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from split_nodes import split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnodes
 from textnode import TextNode, TextType
 
 
@@ -118,6 +118,36 @@ class TestSplitNodesLink(unittest.TestCase):
 
         self.assertEqual(nodes[4].text, " end")
         self.assertEqual(nodes[4].text_type, TextType.TEXT)
+
+
+class TestTextToTextnodes(unittest.TestCase):
+    def test_text_to_textnodes_1(self):
+        text = "This is **text**"
+        nodes = text_to_textnodes(text)
+        
+        self.assertEqual(len(nodes), 2)
+
+        self.assertEqual(nodes[0].text, "This is ")
+        self.assertEqual(nodes[0].text_type, TextType.TEXT)
+
+        self.assertEqual(nodes[1].text, "text")
+        self.assertEqual(nodes[1].text_type, TextType.BOLD)
+
+    
+    def test_text_to_textnodes_2(self):
+        text = "This is text with **bold** and *italic* nodes"
+        nodes = text_to_textnodes(text)
+
+        self.assertEqual(len(nodes), 5)
+
+        self.assertEqual(nodes[0].text, "This is text with ")
+        self.assertEqual(nodes[0].text_type, TextType.TEXT)
+
+        self.assertEqual(nodes[1].text, "bold")
+        self.assertEqual(nodes[1].text_type, TextType.BOLD)
+
+        self.assertEqual(nodes[3].text, "italic")
+        self.assertEqual(nodes[3].text_type, TextType.ITALIC)
 
 
 if __name__ == "__main__":
