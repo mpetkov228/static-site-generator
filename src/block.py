@@ -34,6 +34,3 @@ def block_to_blocktype(block):
         return BlockType.ORDERED_LIST
     
     return BlockType.PARAGRAPH
-    
-
-print(block_to_blocktype("1. heading\n3. hi"))
