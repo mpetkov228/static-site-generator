@@ -1,9 +1,9 @@
-from textnode import TextNode, TextType
+from textnode import TextNode, TextType, text_node_to_html_node
 from functions import extract_markdown_images, extract_markdown_links
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    if delimiter != "`" and delimiter != "*" and delimiter != "**":
+    if delimiter != "```" and delimiter != "*" and delimiter != "**":
         raise Exception("unknown delimiter")
     
     new_nodes = []
@@ -15,7 +15,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             continue
 
         parts = node.text.split(delimiter)
-        if len(parts) != 3:
+        if len(parts) < 2:
             raise Exception("missing closing delimiter")
         
         for i in range(len(parts)):
@@ -81,12 +81,13 @@ def text_to_textnodes(text):
     node = [TextNode(text, TextType.TEXT)]
     nodes_bold = split_nodes_delimiter(node, "**", TextType.BOLD)
     nodes_italic = split_nodes_delimiter(nodes_bold, "*", TextType.ITALIC)
-    nodes_code = split_nodes_delimiter(nodes_italic, "`", TextType.CODE)
+    nodes_code = split_nodes_delimiter(nodes_italic, "```", TextType.CODE)
     nodes_image = split_nodes_image(nodes_code)
     nodes_link = split_nodes_link(nodes_image)
     return nodes_link
 
 
-# text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
-# print(len(text_to_textnodes(text)))
-# print(text_to_textnodes(text))
+def text_to_children(text):
+    nodes = text_to_textnodes(text)
+    htmlnodes = list(map(lambda node: text_node_to_html_node(node), nodes))
+    return htmlnodes

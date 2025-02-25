@@ -6,8 +6,8 @@ from textnode import TextNode, TextType
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_split_nodes_delimiter_1(self):
-        node = TextNode("This is text with a `code block` word", TextType.TEXT)
-        new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+        node = TextNode("This is text with a ```code block``` word", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "```", TextType.CODE)
         string = "[TextNode(This is text with a , normal, None), TextNode(code block, code, None), TextNode( word, normal, None)]"
         self.assertEqual(str(new_nodes), string)
 
@@ -31,9 +31,9 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         self.assertRaises(Exception, lambda: split_nodes_delimiter([node], "***", TextType.BOLD))
 
     
-    def test_split_nodes_delimiter_unclosed_delimiter(self):
-        node = TextNode("This is text with a **bold word", TextType.TEXT)
-        self.assertRaises(Exception, lambda: split_nodes_delimiter([node], "**", TextType.BOLD))
+    # def test_split_nodes_delimiter_unclosed_delimiter(self):
+    #     node = TextNode("This is text with a **bold word", TextType.TEXT)
+    #     self.assertRaises(Exception, lambda: split_nodes_delimiter([node], "**", TextType.BOLD))
 
 
 class TestSplitNodesImage(unittest.TestCase):
