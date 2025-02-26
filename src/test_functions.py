@@ -1,6 +1,6 @@
 import unittest
 
-from functions import extract_markdown_images, extract_markdown_links
+from functions import extract_markdown_images, extract_markdown_links, extract_title
 
 
 class TestFunctions(unittest.TestCase):
@@ -44,6 +44,23 @@ class TestFunctions(unittest.TestCase):
         text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif)"
         expected = []
         self.assertEqual(extract_markdown_links(text), expected)
+
+    
+    def test_extract_title_1(self):
+        markdown = "# heading"
+        result = extract_title(markdown)
+        self.assertEqual(result, "heading")
+
+    
+    def test_extract_title_2(self):
+        markdown = "# heading\n\n## sub-heading\n\nparagraph"
+        result = extract_title(markdown)
+        self.assertEqual(result, "heading")
+
+    
+    def test_extract_title_exception(self):
+        markdown = "## sub-heading\n\nparagraph"
+        self.assertRaises(Exception, lambda: extract_title(markdown))
 
 
 if __name__ == "__main__":
