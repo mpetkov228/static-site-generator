@@ -1,20 +1,20 @@
 import os
 import shutil
 
-from textnode import TextType, TextNode
-
 
 def copy_files(src, src_contents, dst):
     for contents in src_contents:
-        path = os.path.join(src, contents)
-        if os.path.isfile(path):
-            shutil.copy(path, dst)
+        from_path = os.path.join(src, contents)
+        to_path = os.path.join(dst, contents)
+        if os.path.isfile(from_path):
+            shutil.copy(from_path, to_path)
+            print(f"Copying {from_path} to {to_path}")
             continue
         new_dst = os.path.join(dst, contents)
         os.mkdir(new_dst)
 
-        new_src = os.path.join(path)
-        new_contents = os.listdir(path)
+        new_src = os.path.join(from_path)
+        new_contents = os.listdir(from_path)
         copy_files(new_src, new_contents, new_dst)
 
 
@@ -31,8 +31,6 @@ def generate_public():
 
 
 def main():
-    my_node = TextNode("text", TextType.TEXT, "www.website.com")
-    print(my_node)
     generate_public()
 
 
