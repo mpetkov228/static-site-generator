@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from gen_page import generate_page
+
 
 def copy_files(src, src_contents, dst):
     for contents in src_contents:
@@ -32,6 +34,7 @@ def generate_public():
 
 def main():
     generate_public()
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 
 main()

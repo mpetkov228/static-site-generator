@@ -3,7 +3,7 @@ from functions import extract_markdown_images, extract_markdown_links
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    if delimiter != "```" and delimiter != "*" and delimiter != "**":
+    if delimiter != "```" and delimiter != "*" and delimiter != "**" and delimiter != "_":
         raise Exception("unknown delimiter")
     
     new_nodes = []
@@ -81,6 +81,7 @@ def text_to_textnodes(text):
     node = [TextNode(text, TextType.TEXT)]
     nodes_bold = split_nodes_delimiter(node, "**", TextType.BOLD)
     nodes_italic = split_nodes_delimiter(nodes_bold, "*", TextType.ITALIC)
+    nodes_italic = split_nodes_delimiter(nodes_italic, "_", TextType.ITALIC)
     nodes_code = split_nodes_delimiter(nodes_italic, "```", TextType.CODE)
     nodes_image = split_nodes_image(nodes_code)
     nodes_link = split_nodes_link(nodes_image)

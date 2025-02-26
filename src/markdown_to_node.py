@@ -32,7 +32,9 @@ def ordered_list_to_html_node(block):
 
 def quote_to_html_node(block):
     lines = block.split("\n")
-    nodes = "\n".join(list(map(lambda line: line.lstrip(">"), lines)))
+    lines = list(map(lambda line: line.lstrip("> "), lines))
+    # lines = list(filter(lambda line: line != "", lines))
+    nodes = " ".join(lines)
     return HTMLNode("blockquote", None, text_to_children(nodes))
 
 

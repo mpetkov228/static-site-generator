@@ -28,6 +28,3 @@ def generate_page(from_path, template_path, dest_path):
 
     with open(dest_path, "w") as file:
         file.write(template_html)
-
-
-generate_page("./content/index.md", "./template.html", "./public/index.html")
