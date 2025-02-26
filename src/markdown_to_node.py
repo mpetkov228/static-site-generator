@@ -1,4 +1,4 @@
-from htmlnode import HTMLNode, ParentNode, LeafNode
+from htmlnode import HTMLNode
 from block import BlockType, block_to_blocktype
 from split_nodes import text_to_children
 from split_blocks import markdown_to_blocks
@@ -68,35 +68,3 @@ def markdown_to_html_node(markdown):
         nodes.append(block_to_html_node(block, block_type))
     
     return HTMLNode("div", None, nodes)
-
-
-markdown = """
-## **Header** one
-
-Paragraph
-
-1. List item
-2. List item
-
-- List item with *italic* text
-- List item
-
->quote
->quote
-
-[link](somewhere)
-
-![image](something)
-
-*italics*
-
-```
-some code\nmore code\nand some more
-
-```
-
-**bold**
-"""
-
-nodes = markdown_to_html_node(markdown)
-print(nodes)
