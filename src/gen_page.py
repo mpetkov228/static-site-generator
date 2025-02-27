@@ -28,3 +28,18 @@ def generate_page(from_path, template_path, dest_path):
 
     with open(dest_path, "w") as file:
         file.write(template_html)
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    dir_contents = os.listdir(dir_path_content)
+    for content in dir_contents:
+        from_path = os.path.join(dir_path_content, content)
+        to_path = os.path.join(dest_dir_path, content)
+        if os.path.isfile(from_path):
+            generate_page(from_path, template_path, to_path.replace(".md", ".html"))
+            continue
+        generate_pages_recursive(from_path, template_path, to_path)
+        
+    
+    
+generate_pages_recursive("./content", "./template.html", "./public")
