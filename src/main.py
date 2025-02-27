@@ -1,3 +1,4 @@
+import sys
 import os
 import shutil
 
@@ -20,21 +21,25 @@ def copy_files(src, src_contents, dst):
         copy_files(new_src, new_contents, new_dst)
 
 
-def generate_public():
-    public_path = "./public"
+def generate_public(base_path):
+    public_path = os.path.join(base_path, "docs")
     if os.path.exists(public_path):
         shutil.rmtree(public_path)
 
-    os.mkdir("public")
+    os.mkdir(public_path)
 
-    static_path = "./static"
-    static_contents = os.listdir("./static")
+    static_path = os.path.join(base_path, "static")
+    static_contents = os.listdir(static_path)
     copy_files(static_path, static_contents, public_path)
 
 
 def main():
-    generate_public()
-    generate_pages_recursive("./content", "./template.html", "./public")
+    base_path = "./"
+    if len(sys.argv) > 1:
+        base_path = sys.argv[1]
+
+    generate_public(base_path)
+    generate_pages_recursive(base_path, "content", "template.html", "docs")
 
 
 main()
